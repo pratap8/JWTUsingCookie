@@ -1,4 +1,5 @@
 package com.projWith.JWT.JWTProj.config;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,11 +45,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .authorizeRequests().antMatchers("/login", "/register", "/","/h2-console").permitAll()
+                .authorizeRequests()
+                .antMatchers("/login", "/register", "/").permitAll()
                 .anyRequest().authenticated()
-                .and().sessionManagement()
+                .and()
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/login").invalidateHttpSession(true)
+                .deleteCookies("token")
+                .and()
+                .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
+

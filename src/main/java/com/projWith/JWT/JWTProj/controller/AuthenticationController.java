@@ -48,11 +48,11 @@ public class AuthenticationController {
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         final String jwt = jwtUtil.generateToken(userDetails);
-        System.out.println("----------------"+jwt+"-------------");
+        System.out.println("--------------"+jwt+"------------------");
         Cookie cookie = new Cookie("token", jwt);
-        System.out.println("----------------"+cookie+"----------");
         cookie.setHttpOnly(true);
         cookie.setPath("/");
+        System.out.println("--------------"+cookie+"----------------");
         response.addCookie(cookie);
 
         model.addAttribute("username", username);
@@ -83,4 +83,6 @@ public class AuthenticationController {
         model.addAttribute("username", username);
         return "home";
     }
+
+    
 }
